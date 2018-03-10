@@ -3,7 +3,7 @@ import Environment from "./components/Environment";
 import Oscillator from "./components/Oscillator";
 import Filter from "./components/Filter";
 import Sampler from "./components/Sampler";
-import ChannelStrip from './components/ChannelStrip';
+import ChannelStrip from "./components/ChannelStrip";
 import Sequencer from "./components/Sequencer";
 import "./App.css";
 
@@ -12,25 +12,28 @@ const tempo = 130;
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="Reactor">
         <Environment>
-          <ChannelStrip gain={0.05}>
+          <ChannelStrip gain={0.1}>
             <Filter frequency={1050} type="lowpass">
-              <Sequencer notes={[100, 120, 400, 800]} bpm={tempo * 3}>
-                <Oscillator frequency={820} type="triangle" start />
+              <Sequencer notes={[140, 60, 60, 60]} bpm={tempo}>
+                <Oscillator frequency={820} type="sawtooth" start />
               </Sequencer>
-              <Sequencer notes={[100, 200, 300, 1200]} bpm={tempo * 2}>
-                <Oscillator frequency={820} type="saw" start />
+              <Sequencer notes={[0, 120, 0, 120]} bpm={tempo}>
+                <Oscillator frequency={820} type="sawtooth" start />
               </Sequencer>
-              <Sequencer notes={[100, 100, 100, 300]} bpm={tempo}>
-                <Oscillator frequency={820} type="triangle" start />
+              <Sequencer
+                notes={[120 * 3, 120 * 2, 120 * 4, 120 * 2]}
+                bpm={tempo * 2}
+              >
+                <Oscillator frequency={820} type="sawtooth" start />
               </Sequencer>
             </Filter>
           </ChannelStrip>
           <Sequencer notes={[1, 1, 1, 1]} bpm={tempo}>
             <Sampler sample="../sounds/kick.wav" />
           </Sequencer>
-          <Sequencer notes={[0, 1, 0, 1]} bpm={tempo}>
+          <Sequencer notes={[0, 1, 0, 1, 0, 1, 1, 1]} bpm={tempo}>
             <Sampler sample="../sounds/clap.wav" />
           </Sequencer>
           <ChannelStrip gain={0.4}>
