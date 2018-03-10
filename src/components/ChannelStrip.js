@@ -29,6 +29,10 @@ class ChannelStrip extends Component {
   }
 }
 
+ChannelStrip.defaultProps = {
+  gain: 0.8
+};
+
 ChannelStrip.propTypes = {
   context: PropTypes.instanceOf(AudioContext),
   masterGain: PropTypes.instanceOf(GainNode),

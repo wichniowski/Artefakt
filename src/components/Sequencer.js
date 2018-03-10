@@ -1,15 +1,19 @@
 import React, { Component } from "react";
+import Scheduler from "../core/Scheduler";
 
-class Filter extends Component {
+class Sequencer extends Component {
   state = {
     note: 100,
     clockCount: 0
   };
 
   componentDidMount() {
-    this.clock = setInterval(() => {
-      this.setStep();
-    }, 60000 / this.props.bpm);
+    const scheduler = new Scheduler(
+      this.props.context,
+      () => this.setStep(),
+      this.props.bpm
+    );
+    scheduler.handlePlay();
   }
 
   setStep = () => {
@@ -40,4 +44,8 @@ class Filter extends Component {
   }
 }
 
-export default Filter;
+Sequencer.defaultProps = {
+  bpm: 60
+};
+
+export default Sequencer;

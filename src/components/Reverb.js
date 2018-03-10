@@ -41,4 +41,12 @@ class Reverb extends Component {
   }
 }
 
+Reverb.defaultProps = {
+  decayTime: 1,
+  wet: 0.5,
+  dry: 1,
+  filterType: "highpass",
+  cutoff: 100
+};
+
 export default Reverb;

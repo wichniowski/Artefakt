@@ -23,7 +23,7 @@ class App extends Component {
               cutoff={100}
               decayTime={2}
             >
-              <Filter frequency={800} type="lowpass">
+              <Filter frequency={1550} type="lowpass">
                 <Sequencer
                   notes={[140, 60, 60, 60, 30, 30, 30, 30]}
                   bpm={tempo * 2}
@@ -78,7 +78,7 @@ class App extends Component {
           </ChannelStrip>
 
           <ChannelStrip gain={0.4}>
-            <Sequencer notes={[0, 1, 0, 1]} bpm={tempo * 2}>
+            <Sequencer notes={[1, 0, 1, 0]} bpm={tempo * 2}>
               <Sampler sample="../sounds/openhihat.wav" />
             </Sequencer>
           </ChannelStrip>

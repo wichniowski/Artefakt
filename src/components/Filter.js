@@ -28,4 +28,8 @@ class Filter extends Component {
   }
 }
 
+Filter.defaultProps = {
+  frequency: 1000
+};
+
 export default Filter;

@@ -5,7 +5,7 @@ class Synth extends Component {
     super(props);
     const { context, type, frequency, masterGain } = props;
     this.oscillator = context.createOscillator();
-    this.oscillator.type = type || "sine";
+    this.oscillator.type = type;
     this.oscillator.frequency.setValueAtTime(frequency, context.currentTime);
 
     this.vca = context.createGain();
@@ -13,7 +13,7 @@ class Synth extends Component {
     this.oscillator.connect(this.vca);
     this.vca.connect(masterGain);
     this.vca.gain.setValueAtTime(0, context.currentTime);
-    props.start && this.oscillator.start();
+    this.oscillator.start();
   }
 
   componentWillReceiveProps(newProps) {
@@ -40,5 +40,10 @@ class Synth extends Component {
     );
   }
 }
+
+Synth.defaultProps = {
+  type: "sine",
+  frequency: 120
+};
 
 export default Synth;

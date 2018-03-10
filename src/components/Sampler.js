@@ -16,9 +16,9 @@ class Sampler extends Component {
     this.bufferLoader.load();
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillUpdate(newProps) {
     if (this.source && this.buffer && newProps.note !== 0) {
-      this.finishedLoading(this.buffer);
+      this.play(this.buffer);
     }
   }
 
@@ -26,8 +26,12 @@ class Sampler extends Component {
     this.source = this.props.context.createBufferSource();
     this.source.buffer = buffer[0];
     this.source.connect(this.props.masterGain);
-    this.source.start(0);
   };
+
+  play(buffer) {
+    this.finishedLoading(buffer);
+    this.source.start(0);
+  }
 
   render() {
     return (
