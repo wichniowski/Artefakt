@@ -1,17 +1,15 @@
 import React, { Component } from "react";
-import BufferLoader from '../core/BufferLoader';
+import BufferLoader from "../core/BufferLoader";
 
 class Sampler extends Component {
   constructor(props) {
     super(props);
     this.bufferLoader = new BufferLoader(
       props.context,
-      [
-        props.sample,
-      ],
-      (buffer) => {
-          this.buffer = buffer;
-          this.finishedLoading(buffer)
+      [props.sample],
+      buffer => {
+        this.buffer = buffer;
+        this.finishedLoading(buffer);
       }
     );
 
@@ -19,8 +17,8 @@ class Sampler extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if(this.source && this.buffer && newProps.note !== 0) {
-        this.finishedLoading(this.buffer);
+    if (this.source && this.buffer && newProps.note !== 0) {
+      this.finishedLoading(this.buffer);
     }
   }
 
@@ -29,10 +27,14 @@ class Sampler extends Component {
     this.source.buffer = buffer[0];
     this.source.connect(this.props.masterGain);
     this.source.start(0);
-  }
+  };
 
   render() {
-    return <div />;
+    return (
+      <div className="sampler">
+        <p>Sampler</p>
+      </div>
+    );
   }
 }
 

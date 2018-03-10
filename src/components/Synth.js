@@ -3,18 +3,16 @@ import React, { Component } from "react";
 class Synth extends Component {
   constructor(props) {
     super(props);
-    this.oscillator = props.context.createOscillator();
-    this.oscillator.type = props.type || "sine";
-    this.oscillator.frequency.setValueAtTime(
-      props.frequency,
-      props.context.currentTime
-    );
+    const { context, type, frequency, masterGain } = props;
+    this.oscillator = context.createOscillator();
+    this.oscillator.type = type || "sine";
+    this.oscillator.frequency.setValueAtTime(frequency, context.currentTime);
 
-    this.vca = props.context.createGain();
+    this.vca = context.createGain();
 
     this.oscillator.connect(this.vca);
-    this.vca.connect(props.masterGain);
-    this.vca.gain.setValueAtTime(0, props.context.currentTime);
+    this.vca.connect(masterGain);
+    this.vca.gain.setValueAtTime(0, context.currentTime);
     props.start && this.oscillator.start();
   }
 
@@ -36,9 +34,8 @@ class Synth extends Component {
 
   render() {
     return (
-      <div className="oscillator">
-        <h1>Synth</h1>
-        <h2>{this.props.type}</h2>
+      <div className="synth">
+        <p>Synth</p>
       </div>
     );
   }

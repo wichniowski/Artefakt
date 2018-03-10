@@ -3,21 +3,28 @@ import React, { Component } from "react";
 class Filter extends Component {
   constructor(props) {
     super(props);
-    this.biquadFilter = props.context.createBiquadFilter();
+    const { context, frequency, masterGain } = props;
+    this.biquadFilter = context.createBiquadFilter();
     this.biquadFilter.type = props.type;
-    this.biquadFilter.frequency.value = props.frequency;
-    this.biquadFilter.connect(props.masterGain);
+    this.biquadFilter.frequency.value = frequency;
+    this.biquadFilter.connect(masterGain);
   }
 
   render() {
-    const childrenWithContext = React.Children.map(this.props.children, child =>
+    const { children, context } = this.props;
+    const childrenWithContext = React.Children.map(children, child =>
       React.cloneElement(child, {
-        context: this.props.context,
+        context: context,
         masterGain: this.biquadFilter
       })
     );
 
-    return <div>{childrenWithContext}</div>;
+    return (
+      <div className="filter">
+        <p>Filter</p>
+        {childrenWithContext}
+      </div>
+    );
   }
 }
 

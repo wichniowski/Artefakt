@@ -20,7 +20,12 @@ class Environment extends Component {
       })
     );
 
-    return <div className="environment">{childrenWithContext}</div>;
+    return (
+      <div className="environment">
+        <p>Environment</p>
+        {childrenWithContext}
+      </div>
+    );
   }
 }
 

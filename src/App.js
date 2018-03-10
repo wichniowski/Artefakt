@@ -23,7 +23,7 @@ class App extends Component {
               cutoff={100}
               decayTime={2}
             >
-              <Filter frequency={1050} type="lowpass">
+              <Filter frequency={1550} type="lowpass">
                 <Sequencer
                   notes={[140, 60, 60, 60, 30, 30, 30, 30]}
                   bpm={tempo * 2}

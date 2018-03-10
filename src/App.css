@@ -1,28 +1,45 @@
-.App {
+.Reactor,
+#root {
+  padding: 0;
+}
+
+body {
+  color: white;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+p {
+  opacity: 0;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+div {
+  padding: 0.5rem 1rem;
 }
 
-.App-title {
-  font-size: 1.5em;
+.filter {
+  background: green;
 }
 
-.App-intro {
-  font-size: large;
+.synth {
+  background: red;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.reverb {
+  background: orange;
+}
+
+.channelstrip {
+  background: purple;
+}
+
+.environment {
+  background: pink;
+}
+
+.sequencer {
+  background: yellowgreen;
+}
+
+.sampler {
+  background: gray;
 }

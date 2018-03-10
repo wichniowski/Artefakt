@@ -1,24 +1,39 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class ChannelStrip extends Component {
   state = {};
   constructor(props) {
     super(props);
-    this.channel = props.context.createGain();
-    this.channel.gain.setValueAtTime(props.gain, props.context.currentTime);
-    this.channel.connect(props.masterGain);
+    const { context, masterGain, gain } = props;
+    this.channel = context.createGain();
+    this.channel.gain.setValueAtTime(gain, context.currentTime);
+    this.channel.connect(masterGain);
   }
 
   render() {
-    const childrenWithContext = React.Children.map(this.props.children, child =>
+    const { children, context } = this.props;
+    const childrenWithContext = React.Children.map(children, child =>
       React.cloneElement(child, {
-        context: this.props.context,
+        context: context,
         masterGain: this.channel
       })
     );
 
-    return <div>{childrenWithContext}</div>;
+    return (
+      <div className="channelstrip">
+        <p>ChannelStrip</p>
+        {childrenWithContext}
+      </div>
+    );
   }
 }
+
+ChannelStrip.propTypes = {
+  context: PropTypes.instanceOf(AudioContext),
+  masterGain: PropTypes.instanceOf(GainNode),
+  gain: PropTypes.number,
+  children: PropTypes.node
+};
 
 export default ChannelStrip;

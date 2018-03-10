@@ -4,15 +4,24 @@ import SoundbankReverb from "soundbank-reverb";
 class Reverb extends Component {
   constructor(props) {
     super(props);
-    this.reverb = SoundbankReverb(props.context);
-    this.reverb.connect(props.masterGain);
+    const {
+      context,
+      masterGain,
+      decayTime,
+      wet,
+      dry,
+      filterType,
+      cutoff
+    } = props;
+    this.reverb = SoundbankReverb(context);
+    this.reverb.connect(masterGain);
 
-    this.reverb.time = props.decayTime;
-    this.reverb.wet.value = props.wet;
-    this.reverb.dry.value = props.dry;
+    this.reverb.time = decayTime;
+    this.reverb.wet.value = wet;
+    this.reverb.dry.value = dry;
 
-    this.reverb.filterType = props.filterType;
-    this.reverb.cutoff.value = props.cutoff;
+    this.reverb.filterType = filterType;
+    this.reverb.cutoff.value = cutoff;
   }
 
   render() {
@@ -23,7 +32,12 @@ class Reverb extends Component {
       })
     );
 
-    return <div>{childrenWithContext}</div>;
+    return (
+      <div className="reverb">
+        <p>Reverb</p>
+        {childrenWithContext}
+      </div>
+    );
   }
 }
 

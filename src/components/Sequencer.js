@@ -5,6 +5,7 @@ class Filter extends Component {
     note: 100,
     clockCount: 0
   };
+
   componentDidMount() {
     this.clock = setInterval(() => {
       this.setStep();
@@ -30,7 +31,12 @@ class Filter extends Component {
       })
     );
 
-    return <div>{childrenWithContext}</div>;
+    return (
+      <div className="sequencer">
+        <p>Sequencer</p>
+        {childrenWithContext}
+      </div>
+    );
   }
 }
 
