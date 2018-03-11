@@ -8,15 +8,18 @@ class Environment extends Component {
   constructor(props) {
     super(props);
     this.masterGain = context.createGain();
+    this.aux = context.createGain();
     this.masterGain.gain.setValueAtTime(1, context.currentTime);
     this.masterGain.connect(context.destination);
+    this.masterGain.connect(this.aux);
   }
 
   render() {
     const childrenWithContext = React.Children.map(this.props.children, child =>
       React.cloneElement(child, {
         context: context,
-        masterGain: this.masterGain
+        masterGain: this.masterGain,
+        aux: this.aux
       })
     );
 

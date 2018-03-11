@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Scheduler from "../core/Scheduler";
+import PropTypes from "prop-types";
 
 class Sequencer extends Component {
   state = {
@@ -46,6 +47,10 @@ class Sequencer extends Component {
 
 Sequencer.defaultProps = {
   bpm: 60
+};
+
+Sequencer.propTypes = {
+  notes: PropTypes.arrayOf(PropTypes.number)
 };
 
 export default Sequencer;
