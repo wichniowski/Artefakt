@@ -17,17 +17,15 @@ class App extends Component {
     return (
       <div className="Reactor">
         <Environment>
-          <ChannelStrip gain={0.8}>
+          <ChannelStrip gain={0.5}>
             <Filter frequency={900} type="lowpass">
               <Reverb wet={1} time={1}>
-                <Distortion amount={400}>
-                  <Sequencer
-                    notes={[120, 80, 95, 60].map(val => val / 2)}
-                    bpm={tempo / 2}
-                  >
-                    <Synth type="sawtooth" attackTime={0.01} releaseTime={3} />
-                  </Sequencer>
-                </Distortion>
+                <Sequencer
+                  notes={[120, 80, 95, 60].map(val => val / 2)}
+                  bpm={tempo / 2}
+                >
+                  <Synth type="sawtooth" attackTime={0.01} releaseTime={1} />
+                </Sequencer>
                 <Delay delayTime={0.6}>
                   <Sequencer
                     notes={[120, 160, 160, 120, 0, 240].map(value => value * 3)}
@@ -41,22 +39,20 @@ class App extends Component {
           </ChannelStrip>
           <ChannelStrip gain={0.9}>
             <Reverb wet={0.8} time={2}>
-              <Distortion amount={800}>
-                <Sequencer notes={[1, 1, 0, 0, 1, 0, 0, 0]} bpm={tempo * 2}>
-                  <Sampler sample="./sounds/808kick.wav" />
-                </Sequencer>
-                <Sequencer notes={[1, 1]} bpm={tempo * 2}>
+              <Sequencer notes={[1, 1, 0, 1, 1, 0, 1, 0]} bpm={tempo * 2}>
+                <Sampler sample="./sounds/808kick.wav" />
+              </Sequencer>
+              <Sequencer notes={[1, 1]} bpm={tempo * 2}>
+                <Sampler sample="./sounds/hihat.wav" />
+              </Sequencer>
+              <Sequencer notes={[0, 1]} bpm={tempo * 2}>
+                <Sampler sample="./sounds/openhihat.wav" />
+              </Sequencer>
+              <Delay delayTime={2} feedback={0.2}>
+                <Sequencer notes={[0, 1]} bpm={tempo}>
                   <Sampler sample="./sounds/hihat.wav" />
                 </Sequencer>
-                <Sequencer notes={[0, 1]} bpm={tempo * 2}>
-                  <Sampler sample="./sounds/openhihat.wav" />
-                </Sequencer>
-                <Delay delayTime={2} feedback={0.2}>
-                  <Sequencer notes={[0, 1]} bpm={tempo}>
-                    <Sampler sample="./sounds/hihat.wav" />
-                  </Sequencer>
-                </Delay>
-              </Distortion>
+              </Delay>
             </Reverb>
           </ChannelStrip>
         </Environment>
