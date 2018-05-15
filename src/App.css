@@ -3,43 +3,6 @@
   padding: 0;
 }
 
-body {
-  color: white;
-  text-align: center;
-}
-
-p {
-  opacity: 0;
-}
-
-div {
-  padding: 0.5rem 1rem;
-}
-
-.filter {
-  background: green;
-}
-
-.synth {
-  background: red;
-}
-
-.reverb {
-  background: orange;
-}
-
-.channelstrip {
-  background: purple;
-}
-
-.environment {
-  background: pink;
-}
-
-.sequencer {
-  background: yellowgreen;
-}
-
-.sampler {
-  background: gray;
+.Reactor {
+  padding: 25px;
 }

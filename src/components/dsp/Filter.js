@@ -10,6 +10,10 @@ class Filter extends Component {
     this.biquadFilter.connect(masterGain);
   }
 
+  componentWillReceiveProps(newProps) {
+    this.biquadFilter.frequency.value = newProps.frequency;
+  }
+
   render() {
     const { children, context } = this.props;
     const childrenWithContext = React.Children.map(children, child =>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Scheduler from "../core/Scheduler";
+import Scheduler from "../../core/Scheduler";
 import PropTypes from "prop-types";
 
 class Sequencer extends Component {

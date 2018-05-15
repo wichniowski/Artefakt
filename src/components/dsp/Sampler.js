@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import BufferLoader from "../core/BufferLoader";
+import BufferLoader from "../../core/BufferLoader";
 
 class Sampler extends Component {
   constructor(props) {
