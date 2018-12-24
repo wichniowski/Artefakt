@@ -1,13 +1,16 @@
 import React, { Component } from "react";
+import { ChannelContext } from "./ChannelStrip";
 
 class Filter extends Component {
-  constructor(props) {
-    super(props);
-    const { context, frequency, masterGain } = props;
-    this.biquadFilter = context.createBiquadFilter();
-    this.biquadFilter.type = props.type;
+  static contextType = ChannelContext;
+  componentWillMount() {
+    const { frequency } = this.props;
+    const { audioContext, master } = this.context;
+    this.biquadFilter = audioContext.createBiquadFilter();
+    this.biquadFilter.type = this.props.type;
     this.biquadFilter.frequency.value = frequency;
-    this.biquadFilter.connect(masterGain);
+    this.biquadFilter.connect(master.gain);
+    master.gain = this.biquadFilter;
   }
 
   componentWillReceiveProps(newProps) {
@@ -15,25 +18,13 @@ class Filter extends Component {
   }
 
   render() {
-    const { children, context } = this.props;
-    const childrenWithContext = React.Children.map(children, child =>
-      React.cloneElement(child, {
-        context: context,
-        masterGain: this.biquadFilter
-      })
-    );
-
-    return (
-      <div className="filter">
-        <p>Filter</p>
-        {childrenWithContext}
-      </div>
-    );
+    return <React.Fragment>{this.props.children}</React.Fragment>;
   }
 }
 
 Filter.defaultProps = {
-  frequency: 1000
+  frequency: 100,
+  type: "lowpass"
 };
 
 export default Filter;

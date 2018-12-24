@@ -1,39 +1,31 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import { ChannelContext } from "./ChannelStrip";
 
 class Delay extends Component {
-  constructor(props) {
+  static contextType = ChannelContext;
+  constructor(props, context) {
     super(props);
-    this.delay = props.context.createDelay();
-    this.delay.delayTime.value = props.delayTime;
+    const { audioContext, master } = context;
+    const { delayTime, feedback } = this.props;
+    this.delay = audioContext.createDelay();
+    this.delay.delayTime.value = delayTime;
 
-    this.feedback = props.context.createGain();
-    this.feedback.gain.value = props.feedback;
+    this.feedback = audioContext.createGain();
+    this.feedback.gain.value = feedback;
 
-    this.filter = props.context.createBiquadFilter();
+    this.filter = audioContext.createBiquadFilter();
     this.filter.frequency.value = 1000;
 
     this.delay.connect(this.feedback);
     this.feedback.connect(this.filter);
     this.filter.connect(this.delay);
 
-    this.delay.connect(props.masterGain);
+    this.delay.connect(master.gain);
+    master.gain = this.delay;
   }
 
   render() {
-    const childrenWithContext = React.Children.map(this.props.children, child =>
-      React.cloneElement(child, {
-        context: this.props.context,
-        masterGain: this.delay
-      })
-    );
-
-    return (
-      <div className="reverb">
-        <p>Reverb</p>
-        {childrenWithContext}
-      </div>
-    );
+    return <React.Fragment>{this.props.children}</React.Fragment>;
   }
 }
 

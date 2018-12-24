@@ -1,20 +1,15 @@
 import React, { Component } from "react";
 import SoundbankReverb from "soundbank-reverb";
+import { ChannelContext } from "./ChannelStrip";
 
 class Reverb extends Component {
-  constructor(props) {
+  static contextType = ChannelContext;
+  constructor(props, context) {
     super(props);
-    const {
-      context,
-      masterGain,
-      decayTime,
-      wet,
-      dry,
-      filterType,
-      cutoff
-    } = props;
-    this.reverb = SoundbankReverb(context);
-    this.reverb.connect(masterGain);
+    const { decayTime, wet, dry, filterType, cutoff } = props;
+    this.reverb = SoundbankReverb(context.audioContext);
+    this.reverb.connect(context.master.gain);
+    context.master.gain = this.reverb;
 
     this.reverb.time = decayTime;
     this.reverb.wet.value = wet;
@@ -25,19 +20,7 @@ class Reverb extends Component {
   }
 
   render() {
-    const childrenWithContext = React.Children.map(this.props.children, child =>
-      React.cloneElement(child, {
-        context: this.props.context,
-        masterGain: this.reverb
-      })
-    );
-
-    return (
-      <div className="reverb">
-        <p>Reverb</p>
-        {childrenWithContext}
-      </div>
-    );
+    return <React.Fragment>{this.props.children}</React.Fragment>;
   }
 }
 

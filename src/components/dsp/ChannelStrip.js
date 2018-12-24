@@ -1,30 +1,38 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { WebAudioContext } from "./Environment";
+import Analyzer from "../ui/Analyzer";
 
+export const ChannelContext = React.createContext();
 class ChannelStrip extends Component {
   state = {};
-  constructor(props) {
-    super(props);
-    const { context, masterGain, gain } = props;
-    this.channel = context.createGain();
-    this.channel.gain.setValueAtTime(gain, context.currentTime);
-    this.channel.connect(masterGain);
+  static contextType = WebAudioContext;
+
+  componentWillMount() {
+    const { audioContext, master } = this.context;
+    const { gain } = this.props;
+    this.channel = audioContext.createGain();
+    this.channel.gain.setValueAtTime(gain, audioContext.currentTime);
+    this.channel.connect(master.gain);
   }
 
   render() {
-    const { children, context } = this.props;
-    const childrenWithContext = React.Children.map(children, child =>
-      React.cloneElement(child, {
-        context: context,
-        masterGain: this.channel
-      })
-    );
-
+    const { children } = this.props;
     return (
-      <div className="channelstrip">
-        <p>ChannelStrip</p>
-        {childrenWithContext}
-      </div>
+      <ChannelContext.Provider
+        value={{
+          audioContext: this.context.audioContext,
+          master: {
+            gain: this.channel
+          }
+        }}
+      >
+        <Analyzer
+          audioContext={this.context.audioContext}
+          masterGain={this.channel}
+        />
+        {children}
+      </ChannelContext.Provider>
     );
   }
 }
