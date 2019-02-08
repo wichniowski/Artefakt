@@ -1,0 +1,28 @@
+.tracker {
+  background: black;
+  display: inline-block;
+}
+.tracker_list {
+  list-style: none;
+  padding: 20px;
+}
+
+.tracker_list_item {
+  margin-bottom: 10px;
+}
+
+.tracker_list_item input {
+  appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  color: white;
+  border: none;
+  display: inline-block;
+  width: 50px;
+  -moz-appearance: textfield;
+  text-align: center;
+}
+
+.tracker_list_item.active input {
+  color: red;
+}

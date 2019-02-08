@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { ChannelContext } from "./ChannelStrip";
 
 const makeDistortionCurve = amount => {
   let k = typeof amount === "number" ? amount : 50,
@@ -8,37 +9,25 @@ const makeDistortionCurve = amount => {
     i = 0,
     x;
   for (; i < n_samples; ++i) {
-    x = i * 2 / n_samples - 1;
-    curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+    x = (i * 2) / n_samples - 1;
+    curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
   }
   return curve;
 };
 
 class Distortion extends Component {
-  constructor(props) {
-    super(props);
-    const { context, masterGain } = props;
-    this.waveshaper = context.createWaveShaper();
-    this.waveshaper.curve = makeDistortionCurve(props.amount);
+  static contextType = ChannelContext;
+  componentDidMount() {
+    const { audioContext, master } = this.context;
+    this.waveshaper = audioContext.createWaveShaper();
+    this.waveshaper.curve = makeDistortionCurve(this.props.amount);
     this.waveshaper.oversample = "4x";
-    this.waveshaper.connect(masterGain);
+    this.waveshaper.connect(master.gain);
+    master.gain = this.waveshaper;
   }
 
   render() {
-    const { children, context } = this.props;
-    const childrenWithContext = React.Children.map(children, child =>
-      React.cloneElement(child, {
-        context: context,
-        masterGain: this.waveshaper
-      })
-    );
-
-    return (
-      <div className="filter">
-        <p>Waveshaper</p>
-        {childrenWithContext}
-      </div>
-    );
+    return <React.Fragment>{this.props.children}</React.Fragment>;
   }
 }
 

@@ -1,52 +1,65 @@
 import React, { Component } from "react";
 import Scheduler from "../../core/Scheduler";
 import PropTypes from "prop-types";
+import Tone from "tone";
+import { ChannelContext } from "./ChannelStrip";
 
+export const SequencerContext = React.createContext();
 class Sequencer extends Component {
-  state = {
-    note: 100,
-    clockCount: 0
-  };
+  note = 100;
+  clockCount = 0;
+  static contextType = ChannelContext;
 
   componentDidMount() {
-    const scheduler = new Scheduler(
-      this.props.context,
-      () => this.setStep(),
-      this.props.bpm
-    );
-    scheduler.handlePlay();
+    Tone.Transport.start();
   }
 
-  setStep = () => {
-    this.setState({
-      note: this.props.notes[this.state.clockCount],
-      clockCount:
-        this.state.clockCount + 1 < this.props.notes.length
-          ? this.state.clockCount + 1
-          : 0
-    });
+  getNote = () => {
+    if (this.props.notes) {
+      this.note = this.props.notes[this.clockCount];
+      this.clockCount =
+        this.clockCount + 1 < this.props.notes.length ? this.clockCount + 1 : 0;
+      return this.note;
+    }
   };
 
-  render() {
-    const childrenWithContext = React.Children.map(this.props.children, child =>
-      React.cloneElement(child, {
-        context: this.props.context,
-        masterGain: this.props.masterGain,
-        note: this.state.note
-      })
+  onStep = callback => {
+    if (this.transport) {
+      Tone.Transport.clear(this.transport);
+    }
+    this.transport = Tone.Transport.scheduleRepeat(
+      time => {
+        if (callback) {
+          callback(this.getNote());
+        }
+      },
+      this.props.interval,
+      "1m"
     );
+  };
 
+  componentWillUnmount() {
+    console.log(this.transport);
+    Tone.Transport.clear(this.transport);
+  }
+
+  render() {
     return (
-      <div className="sequencer">
-        <p>Sequencer</p>
-        {childrenWithContext}
-      </div>
+      <SequencerContext.Provider
+        value={{
+          onStep: this.onStep,
+          audioContext: this.context.audioContext,
+          master: this.context.master
+        }}
+      >
+        {this.props.children}
+      </SequencerContext.Provider>
     );
   }
 }
 
 Sequencer.defaultProps = {
-  bpm: 60
+  interval: "4n"
 };
 
 Sequencer.propTypes = {

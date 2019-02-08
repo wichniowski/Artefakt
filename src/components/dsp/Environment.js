@@ -1,35 +1,45 @@
 import React, { Component } from "react";
-import "./Environment.css";
+import Tone from "tone";
+import Analyzer from "../ui/Analyzer";
 
-const context = new AudioContext();
-
+const audioContext = new AudioContext();
+export const WebAudioContext = React.createContext({ audioContext });
 class Environment extends Component {
   state = {};
+
   constructor(props) {
     super(props);
-    this.masterGain = context.createGain();
-    this.aux = context.createGain();
-    this.masterGain.gain.setValueAtTime(1, context.currentTime);
-    this.masterGain.connect(context.destination);
+    Tone.Transport.bpm.rampTo(this.props.bpm, 4);
+    Tone.Transport.swing = 0;
+
+    this.masterGain = audioContext.createGain();
+    this.aux = audioContext.createGain();
+    this.masterGain.gain.setValueAtTime(1, audioContext.currentTime);
+    this.masterGain.connect(audioContext.destination);
     this.masterGain.connect(this.aux);
   }
 
   render() {
-    const childrenWithContext = React.Children.map(this.props.children, child =>
-      React.cloneElement(child, {
-        context: context,
-        masterGain: this.masterGain,
-        aux: this.aux
-      })
-    );
-
+    const { children } = this.props;
     return (
-      <div className="environment">
-        <p>Environment</p>
-        {childrenWithContext}
-      </div>
+      <React.Fragment>
+        <Analyzer audioContext={audioContext} masterGain={this.masterGain} />
+        <WebAudioContext.Provider
+          value={{
+            audioContext,
+            master: { gain: this.masterGain },
+            aux: this.aux
+          }}
+        >
+          {children}
+        </WebAudioContext.Provider>
+      </React.Fragment>
     );
   }
 }
+
+Environment.defaultProps = {
+  bpm: 130
+};
 
 export default Environment;

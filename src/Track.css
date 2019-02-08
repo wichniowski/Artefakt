@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css?family=Nova+Mono");
+
+.Reactor,
+#root {
+  padding: 0;
+}
+body {
+  background: black;
+  font-family: "Nova Mono", monospace;
+}
+
+.Reactor {
+  padding: 25px;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
