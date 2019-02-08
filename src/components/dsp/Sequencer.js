@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Scheduler from "../../core/Scheduler";
 import PropTypes from "prop-types";
 import Tone from "tone";
 import { ChannelContext } from "./ChannelStrip";
@@ -23,6 +22,21 @@ class Sequencer extends Component {
     }
   };
 
+  getAutomation = () => {
+    if (this.props.automation) {
+      return Object.keys(this.props.automation)
+        .map(key => {
+          return { [key]: this.props.automation[key][this.clockCount] || 0 };
+        })
+        .reduce((cur, prev) => {
+          return {
+            ...cur,
+            ...prev
+          };
+        }, {});
+    }
+  };
+
   onStep = callback => {
     if (this.transport) {
       Tone.Transport.clear(this.transport);
@@ -30,7 +44,7 @@ class Sequencer extends Component {
     this.transport = Tone.Transport.scheduleRepeat(
       time => {
         if (callback) {
-          callback(this.getNote());
+          callback({ note: this.getNote(), automation: this.getAutomation() });
         }
       },
       this.props.interval,

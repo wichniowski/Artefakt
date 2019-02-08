@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ChannelContext } from "./ChannelStrip";
+import { SequencerContext } from "./Sequencer";
 
 class Filter extends Component {
   static contextType = ChannelContext;
@@ -13,12 +14,23 @@ class Filter extends Component {
     master.gain = this.biquadFilter;
   }
 
-  componentWillReceiveProps(newProps) {
-    this.biquadFilter.frequency.value = newProps.frequency;
-  }
+  setAutomation = automation => {
+    if (automation && automation.frequency) {
+      this.biquadFilter.frequency.value = automation.frequency;
+    }
+  };
 
   render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+    return (
+      <React.Fragment>
+        <SequencerContext.Consumer>
+          {value =>
+            value && value.onStep(step => this.setAutomation(step.automation))
+          }
+        </SequencerContext.Consumer>
+        {this.props.children}
+      </React.Fragment>
+    );
   }
 }
 

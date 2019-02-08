@@ -20,13 +20,13 @@ class Synth extends Component {
     this.vca.gain.setValueAtTime(0, audioContext.currentTime);
     this.oscillator.start();
 
-    this.context.onStep(note => {
-      if (note === 0) {
+    this.context.onStep(step => {
+      if (step.note === 0) {
         return null;
       }
 
       this.oscillator.frequency.setValueAtTime(
-        note,
+        step.note,
         this.context.audioContext.currentTime
       );
 

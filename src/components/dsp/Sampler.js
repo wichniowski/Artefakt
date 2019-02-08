@@ -12,8 +12,8 @@ class Sampler extends Component {
         this.buffer = buffer;
         this.finishedLoading(buffer);
 
-        this.context.onStep(note => {
-          if (note !== 0) {
+        this.context.onStep(step => {
+          if (step.note !== 0) {
             this.play(this.buffer);
           }
         });
