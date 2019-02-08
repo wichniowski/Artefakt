@@ -1,4 +1,4 @@
-# Reactor
+# Artefakt
 
 ## React Algorave Component Library
 
