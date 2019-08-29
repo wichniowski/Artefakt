@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ChannelContext, IChannelContext } from "./ChannelStrip";
+import { ChannelContext, IChannelContext } from "../ChannelStrip";
 
 const createDistortionCurve = (amount: number) => {
   let k = typeof amount === "number" ? amount : 50,

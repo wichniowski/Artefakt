@@ -1,16 +1,18 @@
 import React from "react";
-import Environment from "./components/dsp/Environment";
-import Synth from "./components/dsp/Synth";
-import "./App.css";
-import Sequencer from "./components/dsp/Sequencer";
-import Sampler from "./components/dsp/Sampler";
-import ChannelStrip from "./components/dsp/ChannelStrip";
-import Reverb from "./components/dsp/Reverb";
-import Filter from "./components/dsp/Filter";
-import Kick from "./components/dsp/Kick";
-import Delay from "./components/dsp/Delay";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 
-const Lullaby = () => (
+import Environment from ".";
+import Synth from "../Synth";
+import Sequencer from "../Sequencer";
+import Sampler from "../Sampler";
+import ChannelStrip from "../ChannelStrip";
+import Reverb from "../Reverb";
+import Filter from "../Filter";
+import Kick from "../Kick";
+import Delay from "../Delay";
+
+storiesOf("Environment", module).add("default", () => (
   <Environment bpm={140}>
     <ChannelStrip gain={2}>
       <Delay delayTime={0.2}>
@@ -86,6 +88,4 @@ const Lullaby = () => (
       </Reverb>
     </ChannelStrip>
   </Environment>
-);
-
-export default Lullaby;
+));

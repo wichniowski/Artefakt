@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 //@ts-ignore
 import SoundbankReverb from "soundbank-reverb";
-import { ChannelContext, IChannelContext } from "./ChannelStrip";
+import { ChannelContext, IChannelContext } from "../ChannelStrip";
 
 interface ReverbProps {
   decayTime?: number;

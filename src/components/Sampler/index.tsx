@@ -1,6 +1,6 @@
 import { Component } from "react";
 import BufferLoader from "../../core/BufferLoader";
-import { SequencerContext, ISequencerContext } from "./Sequencer";
+import { SequencerContext, ISequencerContext } from "../Sequencer";
 
 interface SamplerProps {
   sample: string;
