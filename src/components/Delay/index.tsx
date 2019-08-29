@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ChannelContext, IChannelContext } from "./ChannelStrip";
+import { ChannelContext, IChannelContext } from "../ChannelStrip";
 
 interface DelayProps {
   delayTime: number;

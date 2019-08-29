@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SequencerContext } from "./Sequencer";
+import { SequencerContext } from "../Sequencer";
 
 interface SynthProps {
   type: OscillatorType;

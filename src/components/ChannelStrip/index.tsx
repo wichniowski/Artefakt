@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { WebAudioContext } from "./Environment";
-import Analyzer from "../ui/Analyzer";
+import { WebAudioContext } from "../Environment";
+import Analyzer from "../legacy/ui/Analyzer";
 
 export interface IChannelContext {
   audioContext: AudioContext;
@@ -11,6 +11,7 @@ export interface IChannelContext {
 
 interface ChannelStripProps {
   gain: number;
+  withAnalyzer: boolean;
 }
 
 export const ChannelContext = React.createContext({});
@@ -18,7 +19,8 @@ export const ChannelContext = React.createContext({});
 class ChannelStrip extends Component<ChannelStripProps> {
   static contextType = WebAudioContext;
   static defaultProps = {
-    gain: 0.8
+    gain: 0.8,
+    withAnalyzer: false
   };
 
   channel!: GainNode;
@@ -33,7 +35,7 @@ class ChannelStrip extends Component<ChannelStripProps> {
   }
 
   render() {
-    const { children } = this.props;
+    const { withAnalyzer, children } = this.props;
     return (
       <ChannelContext.Provider
         value={{
@@ -43,10 +45,12 @@ class ChannelStrip extends Component<ChannelStripProps> {
           }
         }}
       >
-        <Analyzer
-          audioContext={this.context.audioContext}
-          masterGain={this.channel}
-        />
+        {withAnalyzer && (
+          <Analyzer
+            audioContext={this.context.audioContext}
+            masterGain={this.channel}
+          />
+        )}
         {children}
       </ChannelContext.Provider>
     );

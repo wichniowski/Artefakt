@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { SequencerContext } from "./Sequencer";
-import { IChannelContext } from "./ChannelStrip";
+import { SequencerContext } from "../Sequencer";
+import { IChannelContext } from "../ChannelStrip";
 
 interface KickProps {
   amount: number;

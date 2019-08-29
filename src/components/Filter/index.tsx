@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { ChannelContext, IChannelContext } from "./ChannelStrip";
-import { SequencerContext } from "./Sequencer";
+import { ChannelContext, IChannelContext } from "../ChannelStrip";
+import { SequencerContext } from "../Sequencer";
 
 interface FilterProps {
   frequency: number;

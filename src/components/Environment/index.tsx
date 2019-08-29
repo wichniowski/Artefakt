@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Tone from "tone";
-import Analyzer from "../ui/Analyzer";
+import Analyzer from "../legacy/ui/Analyzer";
 
 interface EnvironmentProps {
   bpm: number;

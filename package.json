@@ -1,25 +1,28 @@
 {
-  "name": "artefakt",
+  "name": "Artefakt",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/jest": "24.0.0",
-    "@types/node": "10.12.24",
-    "@types/react": "16.8.2",
-    "@types/react-dom": "16.8.0",
+    "@types/jest": "24.0.18",
+    "@types/node": "12.7.2",
+    "@types/react": "16.9.2",
+    "@types/react-dom": "16.9.0",
+    "@types/storybook__react": "^4.0.2",
     "@types/webaudioapi": "^0.0.27",
-    "react": "^16.8.1",
-    "react-dom": "^16.8.1",
-    "react-scripts": "2.1.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.1",
     "soundbank-reverb": "^1.1.2",
-    "tone": "^13.4.9",
-    "typescript": "3.3.3"
+    "tone": "^13.8.25",
+    "typescript": "3.6.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,6 +34,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
+    "@storybook/react": "^5.1.11",
     "@types/tone": "https://github.com/Tonejs/TypeScript.git"
   }
 }
