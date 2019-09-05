@@ -12,5 +12,10 @@ export default {
   ChannelStrip,
   Environment,
   Distortion,
-  Filter
+  Filter,
+  Kick,
+  Reverb,
+  Sampler,
+  Sequencer,
+  Synth
 };

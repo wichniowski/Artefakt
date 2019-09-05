@@ -1,0 +1,9 @@
+{
+  "presets": ["@babel/env", "@babel/react", "@babel/typescript"],
+  "plugins": [
+    "babel-plugin-typescript-to-proptypes",
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-class-properties",
+    "babel-plugin-add-react-displayname"
+  ]
+}

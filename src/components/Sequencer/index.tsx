@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes, { array } from "prop-types";
 import Tone from "tone";
 import { ChannelContext } from "../ChannelStrip";
 
