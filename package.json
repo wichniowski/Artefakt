@@ -1,6 +1,6 @@
 {
   "name": "artefakt",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/index.js",
   "license": "MIT",
   "files": [
@@ -8,6 +8,34 @@
     "dist"
   ],
   "dependencies": {
+    "react": "^16.9.0",
+    "tone": "^13.8.25",
+    "@babel/runtime": "^7.3.4",
+    "prop-types": "^15.7.2"
+  },
+  "scripts": {
+    "start": "node scripts/start.js",
+    "build": "yarn babel src --out-dir dist --ignore 'src/stories/','src/**/*.stories.js','src/**/*.stories.tsx','src/**/*.test.tsx','src/**/*.test.js','src/**/*.css.d.ts' --extensions '.ts','.tsx','.js'",
+    "test": "node scripts/test.js",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
+    "@storybook/react": "^5.1.11",
+    "@types/tone": "https://github.com/Tonejs/TypeScript.git",
     "@babel/cli": "^7.5.5",
     "@babel/core": "7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
@@ -57,7 +85,6 @@
     "postcss-normalize": "7.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
-    "react": "^16.9.0",
     "react-app-polyfill": "^1.0.2",
     "react-dev-utils": "^9.0.3",
     "react-dom": "^16.9.0",
@@ -76,30 +103,6 @@
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "4.3.1"
-  },
-  "scripts": {
-    "start": "node scripts/start.js",
-    "build": "yarn babel src --out-dir dist --ignore 'src/stories/','src/**/*.stories.js','src/**/*.stories.tsx','src/**/*.test.tsx','src/**/*.test.js','src/**/*.css.d.ts' --extensions '.ts','.tsx','.js'",
-    "test": "node scripts/test.js",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "@storybook/addon-actions": "^5.1.11",
-    "@storybook/addon-links": "^5.1.11",
-    "@storybook/addons": "^5.1.11",
-    "@storybook/react": "^5.1.11",
-    "@types/tone": "https://github.com/Tonejs/TypeScript.git"
   },
   "jest": {
     "roots": [
