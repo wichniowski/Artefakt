@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import Tone from "tone";
 import Analyzer from "../legacy/ui/Analyzer";
+import { any } from "prop-types";
 
 interface EnvironmentProps {
   bpm: number;
 }
 
 const audioContext = new AudioContext();
-export const WebAudioContext = React.createContext({ audioContext });
+export const WebAudioContext = React.createContext({
+  audioContext,
+  master: {},
+  aux: {}
+});
 class Environment extends Component<EnvironmentProps> {
   state = {};
 

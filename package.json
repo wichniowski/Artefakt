@@ -8,11 +8,11 @@
     "dist"
   ],
   "dependencies": {
-    "react": "^16.9.0",
-    "tone": "^13.8.25",
     "@babel/runtime": "^7.3.4",
     "prop-types": "^15.7.2",
-    "soundbank-reverb": "^1.1.2"
+    "react": "^16.9.0",
+    "soundbank-reverb": "^1.1.2",
+    "tone": "^13.8.25"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -31,21 +31,21 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@storybook/addon-actions": "^5.1.11",
     "@storybook/addon-links": "^5.1.11",
     "@storybook/addons": "^5.1.11",
     "@storybook/react": "^5.1.11",
-    "@types/tone": "https://github.com/Tonejs/TypeScript.git",
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@svgr/webpack": "4.3.2",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.2",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
     "@types/storybook__react": "^4.0.2",
+    "@types/tone": "https://github.com/Tonejs/TypeScript.git",
     "@types/webaudioapi": "^0.0.27",
     "@typescript-eslint/eslint-plugin": "1.13.0",
     "@typescript-eslint/parser": "1.13.0",
