@@ -3,7 +3,9 @@ import Tone from "tone";
 import { ChannelContext } from "../ChannelStrip";
 
 interface SequencerProps {
-  notes: Array<number>;
+  notes: Array<number | string>;
+  stepDurations?: Array<number | string>;
+  stepVelocities?: Array<number | string>;
   automation?: { [key: string]: Array<number> };
   interval: string;
 }
@@ -35,12 +37,15 @@ class Sequencer extends Component<SequencerProps> {
     Tone.Transport.start();
   }
 
-  getNote = () => {
-    if (this.props.notes) {
-      this.note = this.props.notes[this.clockCount];
-      this.clockCount =
-        this.clockCount + 1 < this.props.notes.length ? this.clockCount + 1 : 0;
-      return this.note;
+  getStepProperty = (
+    prop: (string | number)[] | undefined,
+    stepNumber: number
+  ) => {
+    if (prop) {
+      const step = prop[stepNumber];
+      return step;
+    } else {
+      return undefined;
     }
   };
 
@@ -70,8 +75,23 @@ class Sequencer extends Component<SequencerProps> {
     }
     this.transport = Tone.Transport.scheduleRepeat(
       () => {
+        this.clockCount =
+          this.clockCount + 1 < this.props.notes.length
+            ? this.clockCount + 1
+            : 0;
         if (callback) {
-          callback({ note: this.getNote(), automation: this.getAutomation() });
+          callback({
+            note: this.getStepProperty(this.props.notes, this.clockCount),
+            automation: this.getAutomation(),
+            duration: this.getStepProperty(
+              this.props.stepDurations,
+              this.clockCount
+            ),
+            velocity: this.getStepProperty(
+              this.props.stepVelocities,
+              this.clockCount
+            )
+          });
         }
       },
       this.props.interval,

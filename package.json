@@ -12,7 +12,8 @@
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "soundbank-reverb": "^1.1.2",
-    "tone": "^13.8.25"
+    "tone": "^13.8.25",
+    "webmidi": "^2.5.1"
   },
   "scripts": {
     "start": "node scripts/start.js",

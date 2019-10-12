@@ -14,7 +14,7 @@ import Delay from "../Delay";
 
 storiesOf("Environment", module).add("default", () => (
   <Environment bpm={140}>
-    <ChannelStrip gain={2}>
+    <ChannelStrip gain={0.3}>
       <Delay delayTime={0.2}>
         <Sequencer
           notes={[1, 1, 1, 1, 1, 1, 1, 1]}
@@ -28,7 +28,7 @@ storiesOf("Environment", module).add("default", () => (
         </Sequencer>
       </Delay>
     </ChannelStrip>
-    <ChannelStrip gain={1.5}>
+    <ChannelStrip gain={0.5}>
       <Reverb decayTime={3}>
         <Delay delayTime={0.2}>
           <Sequencer notes={[0, 0, 1, 0, 0, 0, 1, 0]} interval="4n">
