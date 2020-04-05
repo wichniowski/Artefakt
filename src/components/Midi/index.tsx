@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { SequencerContext } from "../Sequencer";
 import WebMidi from "webmidi";
 
+export const MODE_RECEIVE = "receive";
+export const MODE_SEND = "send";
+
 interface MidiProps {
   note?: string;
   outputName?: string;
@@ -10,19 +13,27 @@ interface MidiProps {
 class Midi extends Component<MidiProps> {
   static contextType = SequencerContext;
   output: any = null;
+  midiOutput: string | null = null;
 
   componentWillMount() {
     const { outputName } = this.props;
 
-    WebMidi.enable(err => {
-      console.log("Midi inputs:", WebMidi.inputs.map(input => input.name));
-      console.log("Midi outputs", WebMidi.outputs.map(output => output.name));
+    WebMidi.enable((err) => {
+      const inputs = WebMidi.inputs.map((input) => input.name);
+      const outputs = WebMidi.outputs.map((output) => output.name);
+      console.log("Midi inputs:", inputs);
+      console.log("Midi outputs", outputs);
 
-      if (outputName) {
-        this.output = WebMidi.getOutputByName(outputName);
-        if (this.output) {
-          this.initSeq(this.output);
-        }
+      // Set some default ports
+      this.midiOutput = outputs[0];
+
+      if (!this.midiOutput) {
+        return null;
+      }
+
+      this.output = WebMidi.getOutputByName(outputName || this.midiOutput);
+      if (this.output) {
+        this.initSeq(this.output);
       }
     });
   }
@@ -36,7 +47,7 @@ class Midi extends Component<MidiProps> {
 
       output.playNote(step.note, this.props.channel || 1, {
         duration: step.duration,
-        velocity: step.velocity
+        velocity: step.velocity,
       });
     });
   };

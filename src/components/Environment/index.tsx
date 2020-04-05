@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Tone from "tone";
 import Analyzer from "../legacy/ui/Analyzer";
-import { any } from "prop-types";
 
 interface EnvironmentProps {
   bpm: number;
+  withAnalyzer?: boolean;
 }
 
 const audioContext = new AudioContext();
@@ -17,7 +17,8 @@ class Environment extends Component<EnvironmentProps> {
   state = {};
 
   static defaultProps = {
-    bpm: 130
+    bpm: 130,
+    withAnalyzer: false
   };
   masterGain: GainNode;
   aux: GainNode;
@@ -35,10 +36,21 @@ class Environment extends Component<EnvironmentProps> {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, withAnalyzer } = this.props;
     return (
       <React.Fragment>
-        <Analyzer audioContext={audioContext} masterGain={this.masterGain} />
+        <style>
+          {`body {
+            background: black;
+          }`}
+        </style>
+        <h1 style={{ color: "white", fontFamily: "Times New Roman" }}>
+          Artefakt
+        </h1>
+        <h2 style={{ color: "white", fontFamily: "Times New Roman" }}>Alpha</h2>
+        {withAnalyzer && (
+          <Analyzer audioContext={audioContext} masterGain={this.masterGain} />
+        )}
         <WebAudioContext.Provider
           value={{
             audioContext,
@@ -52,9 +64,5 @@ class Environment extends Component<EnvironmentProps> {
     );
   }
 }
-
-Environment.defaultProps = {
-  bpm: 130
-};
 
 export default Environment;

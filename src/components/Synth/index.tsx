@@ -14,7 +14,7 @@ class Synth extends Component<SynthProps> {
     type: "sine",
     frequency: 120,
     attackTime: 0,
-    releaseTime: 0.5
+    releaseTime: 0.5,
   };
 
   oscillator!: OscillatorNode;

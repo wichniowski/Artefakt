@@ -1,61 +1,56 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Environment, ChannelStrip, Sequencer, Midi } from "./index";
-
-const randomMelody = (length: number, minOctave = 2, maxOctave = 7) => {
-  const notes = ["C", "D#", "F", "G", "G#", "A#", "-"];
-  return new Array(length)
-    .fill(Math.floor(Math.random() * (maxOctave - minOctave + 1)) + minOctave)
-    .map(octave => {
-      const note = notes[Math.floor(Math.random() * notes.length)];
-      return note === "-" ? note : `${note}${octave}`;
-    });
-};
+import {
+  Environment,
+  ChannelStrip,
+  Sequencer,
+  Midi,
+  Kick,
+  Reverb,
+  Filter,
+  Poti,
+} from "./index";
+import Synth from "./components/Synth";
 
 function App() {
-  const midiOutput = "IAC Driver Virtual Midi";
-  const x = "-";
-  console.log(randomMelody(10, 2, 6));
   return (
     <div className="App">
-      <Environment bpm={160}>
-        <ChannelStrip>
-          {/* <Sequencer notes={randomMelody(16, 3, 4)} interval="8n">
-            <Midi outputName={midiOutput} />
-          </Sequencer> */}
-          <Sequencer notes={randomMelody(10, 5, 6)} interval="16n">
-            <Midi outputName={midiOutput} />
+      <Poti
+        max={6}
+        onChange={(value) => {
+          console.log(value);
+        }}
+      ></Poti>
+      <Environment bpm={160} withAnalyzer>
+        <ChannelStrip gain={0.6}>
+          <Sequencer midi>
+            <Filter frequency={1000}>
+              <Reverb decayTime={4}>
+                <Synth type="square" releaseTime={1} attackTime={1} />
+              </Reverb>
+            </Filter>
           </Sequencer>
-          <Sequencer
-            notes={[
-              "F3",
-              "F3",
-              x,
-              x,
-              "D#3",
-              "G4",
-              x,
-              x,
-              x,
-              x,
-              x,
-              x,
-              "C2",
-              x,
-              x
-            ]}
-            interval="8n"
-          >
-            <Midi outputName={midiOutput} channel={2} />
+          <Sequencer midi midiChannel="2">
+            <Reverb decayTime={2}>
+              <Synth type="sine" releaseTime={1} attackTime={0.2} />
+            </Reverb>
           </Sequencer>
-          <Sequencer
-            notes={["C2", "-", "E2", "-", "C2", "D2", "C#2", "C2"]}
-            interval="8n"
-          >
-            <Midi outputName={midiOutput} channel={4} />
+        </ChannelStrip>
+        <ChannelStrip gain={0.4}>
+          <Sequencer midi midiChannel="3">
+            <Reverb decayTime={2}>
+              <Synth type="triangle" releaseTime={1} attackTime={0.1} />
+            </Reverb>
           </Sequencer>
-          <Sequencer notes={["C#2", "C#2", "C#2"]} interval="8n">
-            <Midi outputName={midiOutput} channel={5} />
+          <Sequencer midi midiChannel="4">
+            <Synth type="square" releaseTime={1} attackTime={1} />
+          </Sequencer>
+        </ChannelStrip>
+        <ChannelStrip gain={0.2}>
+          <Sequencer midi midiChannel="5">
+            <Reverb decayTime={2}>
+              <Synth type="square" releaseTime={0.2} attackTime={0.1} />
+            </Reverb>
           </Sequencer>
         </ChannelStrip>
       </Environment>
