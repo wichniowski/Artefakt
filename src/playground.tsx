@@ -8,6 +8,7 @@ import {
   Filter,
   Poti,
   Analyzer,
+  Tracker,
 } from "./index";
 import Synth from "./components/Synth";
 import "./App.css";
@@ -27,6 +28,8 @@ const styles = {
     font-size: 0.75rem;
   `,
   container: css`
+    border: 2px solid white;
+    border-radius: 5px;
     padding: 25px;
     color: white;
     background: black;
@@ -39,10 +42,19 @@ const styles = {
   `,
   header: css`
     display: flex;
+    margin-bottom: 25px;
   `,
   analyzer: css`
     align-self: end;
     margin-left: auto;
+  `,
+  trackers: css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-top: 2px solid white;
+    margin-top: 25px;
   `,
 };
 
@@ -68,10 +80,10 @@ function App() {
 
   const waveforms = ["square", "sine", "sawtooth", "triangle"];
   const colorsByWaveform = {
-    square: "purple",
-    sine: "green",
-    sawtooth: "yellow",
-    triangle: "blue",
+    square: "solid",
+    sine: "dotted",
+    sawtooth: "dashed",
+    triangle: "ridge",
   };
 
   const [waveformIndex, setWaveformIndex] = useState(0);
@@ -95,6 +107,7 @@ function App() {
           <div>
             <h1 className={styles.heading}>Interuptor</h1>
             <p className={styles.description}>Supersaw engine</p>
+            <p className={styles.description}>Quattro Oscilatione</p>
           </div>
           <div className={styles.analyzer}>
             {audioContextRef.audioContext && (
@@ -113,14 +126,13 @@ function App() {
             <Poti
               max={2}
               //@ts-ignore
-              color={colorsByWaveform[diversions[key].waveform]}
+              outlineStyle={colorsByWaveform[diversions[key].waveform]}
               onShiftClick={() => {
                 //@ts-ignore
                 let nextIndex = waveforms.indexOf(diversions[key].waveform) + 1;
                 if (nextIndex === waveforms.length) {
                   nextIndex = 0;
                 }
-                console.log(nextIndex);
                 setDiversions({
                   ...diversions,
                   [key]: {
@@ -155,40 +167,50 @@ function App() {
             }}
           />
           <Poti
-            color="yellow"
             max={20000}
             onChange={(value) => {
               setFilterFreq(value);
             }}
           />
           <Poti
-            color="green"
             max={20}
             onChange={(value) => {
               setFilterQ(value);
             }}
           />
           <Poti
-            color="purple"
             max={3}
             onChange={(value) => {
               setFilterDetune(value);
             }}
           />
           <Poti
-            color="white"
             max={1}
             onChange={(value) => {
               setReverb(value);
             }}
           />
           <Poti
-            color="gray"
             max={100}
             onChange={(value) => {
               setDistortionAmount(value);
             }}
           />
+        </div>
+
+        <div className={styles.trackers}>
+          <Tracker
+            key="freq"
+            onStep={(_step, value) => {
+              if (Number.isInteger(value) && value > 0) {
+                setFilterFreq(value);
+              }
+            }}
+          />
+          <Tracker key="res" onStep={(_step, value) => {}} />
+          <Tracker key="foo" />
+          <Tracker key="bar" />
+          <Tracker key="lorem" />
         </div>
       </div>
 

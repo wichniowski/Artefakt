@@ -1,10 +1,11 @@
 .tracker {
+  flex: 1;
   background: black;
   display: inline-block;
 }
 .tracker_list {
   list-style: none;
-  padding: 20px;
+  padding: 0px;
 }
 
 .tracker_list_item {
@@ -12,6 +13,7 @@
 }
 
 .tracker_list_item input {
+  outline: none;
   appearance: none;
   -moz-appearance: none;
   background: transparent;
@@ -23,6 +25,7 @@
   text-align: center;
 }
 
-.tracker_list_item.active input {
+.tracker_list_item.active input,
+.tracker_list_item.active input::placeholder {
   color: red;
 }

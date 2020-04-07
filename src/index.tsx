@@ -11,3 +11,4 @@ export { default as Delay } from "./components/Delay";
 export { default as Midi } from "./components/Midi";
 export { default as Analyzer } from "./components/legacy/ui/Analyzer";
 export { default as Poti } from "./components/UI/Poti";
+export { default as Tracker } from "./components/legacy/ui/Tracker";

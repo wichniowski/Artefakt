@@ -1,4 +1,11 @@
 import React, { Component } from "react";
+import { css } from "emotion";
+
+const styles = {
+  display: css`
+    border: 2px solid white;
+  `,
+};
 
 interface AnalyzerProps {
   canvasDimensions: {
@@ -13,8 +20,8 @@ class Analyzer extends Component<AnalyzerProps> {
   static defaultProps = {
     canvasDimensions: {
       width: document.body.clientWidth,
-      height: 100
-    }
+      height: 100,
+    },
   };
 
   analyser: AnalyserNode;
@@ -68,9 +75,10 @@ class Analyzer extends Component<AnalyzerProps> {
   render() {
     return (
       <canvas
+        className={styles.display}
         width={this.props.canvasDimensions.width}
         height={this.props.canvasDimensions.height}
-        ref={ref => {
+        ref={(ref) => {
           this.canvas = ref;
         }}
       />
@@ -81,8 +89,8 @@ class Analyzer extends Component<AnalyzerProps> {
 Analyzer.defaultProps = {
   canvasDimensions: {
     width: document.body.clientWidth,
-    height: 100
-  }
+    height: 100,
+  },
 };
 
 export default Analyzer;

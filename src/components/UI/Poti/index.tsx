@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import { css } from "emotion";
+import { css, cx } from "emotion";
 
 const styles = {
-  container: css``,
   track: css`
-    background: white;
     margin: 5px;
     cursor: pointer;
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 100%;
     overflow: hidden;
     position: relative;
+    background: black;
   `,
   thumb: css`
+    border: 2px solid white;
     position: absolute;
     border-radius: 100%;
     top: 50%;
@@ -28,7 +28,7 @@ interface PotiProps {
   max: number;
   opaqIndex?: number;
   reverse?: boolean;
-  color: string;
+  outlineStyle?: string;
 }
 
 interface PotiState {
@@ -44,7 +44,7 @@ class Poti extends Component<PotiProps, PotiState> {
     max: 100,
     label: "slider",
     opaqIndex: 0,
-    color: "red",
+    outlineStyle: "solid",
   };
 
   state = {
@@ -78,34 +78,33 @@ class Poti extends Component<PotiProps, PotiState> {
 
   render() {
     return (
-      <div className={styles.container}>
+      <div
+        ref={(ref) => {
+          this.inputRef = ref;
+        }}
+        className={styles.track}
+        onMouseMove={(event) => this.setPercentage(event, false)}
+        onClick={(event) => {
+          //@ts-ignore
+          if (event.shiftKey) {
+            this.props.onShiftClick();
+          } else {
+            this.setPercentage(event, true);
+          }
+        }}
+        onMouseDown={() => this.setState({ locked: false })}
+        onMouseUp={() => this.setState({ locked: true })}
+        onMouseLeave={() => this.setState({ locked: true })}
+      >
+        {console.log(this.props.outlineStyle)}
         <div
-          ref={(ref) => {
-            this.inputRef = ref;
+          className={cx(styles.thumb)}
+          style={{
+            border: `2px ${this.props.outlineStyle} white`,
+            width: this.state.thumbWidth,
+            height: this.state.thumbWidth,
           }}
-          className={styles.track}
-          onMouseMove={(event) => this.setPercentage(event, false)}
-          onClick={(event) => {
-            //@ts-ignore
-            if (event.shiftKey) {
-              this.props.onShiftClick();
-            } else {
-              this.setPercentage(event, true);
-            }
-          }}
-          onMouseDown={() => this.setState({ locked: false })}
-          onMouseUp={() => this.setState({ locked: true })}
-          onMouseLeave={() => this.setState({ locked: true })}
-        >
-          <div
-            className={styles.thumb}
-            style={{
-              background: this.props.color,
-              width: this.state.thumbWidth,
-              height: this.state.thumbWidth,
-            }}
-          ></div>
-        </div>
+        ></div>
       </div>
     );
   }
