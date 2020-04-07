@@ -6,6 +6,7 @@ interface SynthProps {
   frequency: number;
   releaseTime: number;
   attackTime: number;
+  tune: number;
 }
 
 class Synth extends Component<SynthProps> {
@@ -15,6 +16,7 @@ class Synth extends Component<SynthProps> {
     frequency: 120,
     attackTime: 0,
     releaseTime: 0.5,
+    tune: 0,
   };
 
   oscillator!: OscillatorNode;
@@ -25,14 +27,18 @@ class Synth extends Component<SynthProps> {
     this.initSeq();
   }
 
+  componentDidUpdate() {
+    this.oscillator.type = this.props.type;
+  }
+
   initDSP = () => {
-    const { type, frequency } = this.props;
+    const { type, frequency, tune } = this.props;
     const { audioContext, master } = this.context;
     this.oscillator = audioContext.createOscillator();
     this.oscillator.type = type;
 
     this.oscillator.frequency.setValueAtTime(
-      frequency,
+      frequency + tune,
       audioContext.currentTime
     );
 
@@ -52,7 +58,7 @@ class Synth extends Component<SynthProps> {
         return null;
       }
       this.oscillator.frequency.setValueAtTime(
-        step.note,
+        step.note + this.props.tune,
         this.context.audioContext.currentTime
       );
       const now = this.context.audioContext.currentTime;

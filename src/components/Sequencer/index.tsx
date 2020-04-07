@@ -113,7 +113,6 @@ class Sequencer extends Component<SequencerProps> {
   onStep = (callback: (step: any) => void) => {
     if (this.props.midi) {
       this.midiInput.addListener("noteon", this.props.midiChannel, (e: any) => {
-        console.log(e);
         callback({ note: Tone.Frequency.mtof(e.note.number) });
       });
     } else {

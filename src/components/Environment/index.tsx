@@ -5,20 +5,21 @@ import Analyzer from "../legacy/ui/Analyzer";
 interface EnvironmentProps {
   bpm: number;
   withAnalyzer?: boolean;
+  audioContextRef?: (audioContext: any, masterGain: any) => void;
 }
 
 const audioContext = new AudioContext();
 export const WebAudioContext = React.createContext({
   audioContext,
   master: {},
-  aux: {}
+  aux: {},
 });
 class Environment extends Component<EnvironmentProps> {
   state = {};
 
   static defaultProps = {
     bpm: 130,
-    withAnalyzer: false
+    withAnalyzer: false,
   };
   masterGain: GainNode;
   aux: GainNode;
@@ -33,21 +34,16 @@ class Environment extends Component<EnvironmentProps> {
     this.masterGain.gain.setValueAtTime(1, audioContext.currentTime);
     this.masterGain.connect(audioContext.destination);
     this.masterGain.connect(this.aux);
+
+    if (props.audioContextRef) {
+      props.audioContextRef(audioContext, this.masterGain);
+    }
   }
 
   render() {
     const { children, withAnalyzer } = this.props;
     return (
       <React.Fragment>
-        <style>
-          {`body {
-            background: black;
-          }`}
-        </style>
-        <h1 style={{ color: "white", fontFamily: "Times New Roman" }}>
-          Artefakt
-        </h1>
-        <h2 style={{ color: "white", fontFamily: "Times New Roman" }}>Alpha</h2>
         {withAnalyzer && (
           <Analyzer audioContext={audioContext} masterGain={this.masterGain} />
         )}
@@ -55,7 +51,7 @@ class Environment extends Component<EnvironmentProps> {
           value={{
             audioContext,
             master: { gain: this.masterGain },
-            aux: this.aux
+            aux: this.aux,
           }}
         >
           {children}

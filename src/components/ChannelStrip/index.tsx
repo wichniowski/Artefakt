@@ -20,7 +20,7 @@ class ChannelStrip extends Component<ChannelStripProps> {
   static contextType = WebAudioContext;
   static defaultProps = {
     gain: 0.8,
-    withAnalyzer: false
+    withAnalyzer: false,
   };
 
   channel!: GainNode;
@@ -34,6 +34,13 @@ class ChannelStrip extends Component<ChannelStripProps> {
     this.channel.connect(master.gain);
   }
 
+  componentDidUpdate() {
+    this.channel.gain.setValueAtTime(
+      this.props.gain,
+      this.context.audioContext.currentTime
+    );
+  }
+
   render() {
     const { withAnalyzer, children } = this.props;
     return (
@@ -41,8 +48,8 @@ class ChannelStrip extends Component<ChannelStripProps> {
         value={{
           audioContext: this.context.audioContext,
           master: {
-            gain: this.channel
-          }
+            gain: this.channel,
+          },
         }}
       >
         {withAnalyzer && (

@@ -24,7 +24,7 @@ class Distortion extends Component<DistortionProps> {
   static contextType = ChannelContext;
   static defaultProps = {
     frequency: 1000,
-    amount: 1
+    amount: 1,
   };
 
   waveshaper: WaveShaperNode;
@@ -38,6 +38,10 @@ class Distortion extends Component<DistortionProps> {
     this.waveshaper.connect(master.gain);
     // @ts-ignore
     master.gain = this.waveshaper;
+  }
+
+  componentDidUpdate() {
+    this.waveshaper.curve = createDistortionCurve(this.props.amount);
   }
 
   render() {
