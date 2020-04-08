@@ -18,7 +18,7 @@ class Reverb extends Component<ReverbProps> {
     wet: 0.5,
     dry: 1,
     filterType: "highpass",
-    cutoff: 100
+    cutoff: 100,
   };
 
   reverb: SoundbankReverb;
@@ -37,6 +37,10 @@ class Reverb extends Component<ReverbProps> {
     this.reverb.filterType = filterType;
     this.reverb.cutoff.value = cutoff;
     master.gain = this.reverb;
+  }
+
+  componentDidUpdate() {
+    this.reverb.time = this.props.decayTime;
   }
 
   render() {

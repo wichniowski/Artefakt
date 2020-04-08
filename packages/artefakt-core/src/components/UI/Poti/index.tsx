@@ -68,7 +68,6 @@ class Poti extends Component<PotiProps, PotiState> {
     const node = this.inputRef;
     const bounds = node.getBoundingClientRect();
     const x = Math.round(event.clientY) - bounds.top;
-    console.log(x);
     const percent = (100 * x) / event.currentTarget.offsetHeight;
     this.props.onChange(
       this.getPercentageByMaxValue(this.props.reverse ? 100 - percent : percent)
@@ -96,7 +95,6 @@ class Poti extends Component<PotiProps, PotiState> {
         onMouseUp={() => this.setState({ locked: true })}
         onMouseLeave={() => this.setState({ locked: true })}
       >
-        {console.log(this.props.outlineStyle)}
         <div
           className={cx(styles.thumb)}
           style={{

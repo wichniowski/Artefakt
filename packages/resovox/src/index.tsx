@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useState } from 'react';
 import {
   Environment,
   ChannelStrip,
@@ -9,11 +8,10 @@ import {
   Poti,
   Analyzer,
   Tracker,
-} from "./index";
-import Synth from "./components/Synth";
-import "./App.css";
-import { css } from "emotion";
-import Distortion from "./components/Distortion";
+  Synth,
+  Distortion,
+} from 'artefakt';
+import { css } from 'emotion';
 
 const styles = {
   app: css``,
@@ -59,53 +57,83 @@ const styles = {
 };
 
 function App() {
-  const [diversions, setDiversions] = useState({
+  const [oscillators, setOscillators] = useState({
     osc1: {
       value: 0,
-      waveform: "sawtooth",
+      waveform: 'sawtooth',
     },
     osc2: {
       value: 0,
-      waveform: "square",
+      waveform: 'square',
     },
     osc3: {
       value: 0,
-      waveform: "sine",
+      waveform: 'sine',
     },
     osc4: {
       value: 0,
-      waveform: "triangle",
+      waveform: 'triangle',
     },
   });
 
-  const waveforms = ["square", "sine", "sawtooth", "triangle"];
-  const colorsByWaveform = {
-    square: "solid",
-    sine: "dotted",
-    sawtooth: "dashed",
-    triangle: "ridge",
+  const waveforms = ['square', 'sine', 'sawtooth', 'triangle'];
+  const outlinesByWafeform = {
+    square: 'solid',
+    sine: 'dotted',
+    sawtooth: 'dashed',
+    triangle: 'double',
   };
 
-  const [waveformIndex, setWaveformIndex] = useState(0);
   const [filterFreq, setFilterFreq] = useState(10000);
   const [filterQ, setFilterQ] = useState(1);
   const [filterDetune, setFilterDetune] = useState(0);
   const [distortionAmount, setDistortionAmount] = useState(40);
-  const [reverb, setReverb] = useState(0.2);
+  const [subVolume, setSubVolume] = useState(0.2);
+  const [reverbDecayTime, setReverbDecayTime] = useState(0.2);
   const [audioContextRef, setAudioContextRef] = useState({
     audioContext: null,
     masterGain: null,
   });
-  const [midiChannel, setMidiChannel] = useState("1");
+  const [midiChannel] = useState('1');
   const [attack, setAttack] = useState(0.2);
   const [release, setRelease] = useState(1);
+
+  const renderOscPotis = () =>
+    Object.keys(oscillators).map(key => (
+      <Poti
+        max={2}
+        outlineStyle={outlinesByWafeform[oscillators[key].waveform]}
+        onShiftClick={() => {
+          let nextIndex = waveforms.indexOf(oscillators[key].waveform) + 1;
+          if (nextIndex === waveforms.length) {
+            nextIndex = 0;
+          }
+          setOscillators({
+            ...oscillators,
+            [key]: {
+              ...oscillators[key],
+              waveform: waveforms[nextIndex],
+            },
+          });
+        }}
+        onChange={(value: string) => {
+          setOscillators({
+            ...oscillators,
+            [key]: {
+              ...oscillators[key],
+              value,
+            },
+          });
+        }}
+      />
+    ));
 
   return (
     <div className={styles.app}>
       <div className={styles.container}>
         <div className={styles.header}>
           <div>
-            <h1 className={styles.heading}>Interuptor</h1>
+            <h1 className={styles.heading}>Resovox</h1>
             <p className={styles.description}>Supersaw engine</p>
             <p className={styles.description}>Quattro Oscilatione</p>
           </div>
@@ -113,87 +141,60 @@ function App() {
             {audioContextRef.audioContext && (
               <Analyzer
                 canvasDimensions={{ width: 100, height: 70 }}
-                //@ts-ignore
                 audioContext={audioContextRef.audioContext}
-                //@ts-ignore
                 masterGain={audioContextRef.masterGain}
               />
             )}
           </div>
         </div>
         <div className={styles.potis}>
-          {Object.keys(diversions).map((key) => (
-            <Poti
-              max={2}
-              //@ts-ignore
-              outlineStyle={colorsByWaveform[diversions[key].waveform]}
-              onShiftClick={() => {
-                //@ts-ignore
-                let nextIndex = waveforms.indexOf(diversions[key].waveform) + 1;
-                if (nextIndex === waveforms.length) {
-                  nextIndex = 0;
-                }
-                setDiversions({
-                  ...diversions,
-                  [key]: {
-                    //@ts-ignore
-                    ...diversions[key],
-                    waveform: waveforms[nextIndex],
-                  },
-                });
-              }}
-              onChange={(value) => {
-                setDiversions({
-                  ...diversions,
-                  [key]: {
-                    //@ts-ignore
-                    ...diversions[key],
-                    value,
-                  },
-                });
-              }}
-            />
-          ))}
+          {renderOscPotis()}
           <Poti
             max={1}
-            onChange={(value) => {
+            onChange={value => {
               setAttack(value);
             }}
           />
           <Poti
             max={1}
-            onChange={(value) => {
+            onChange={value => {
               setRelease(value);
             }}
           />
           <Poti
             max={20000}
-            onChange={(value) => {
+            onChange={value => {
               setFilterFreq(value);
             }}
           />
           <Poti
             max={20}
-            onChange={(value) => {
+            onChange={value => {
               setFilterQ(value);
             }}
           />
           <Poti
             max={3}
-            onChange={(value) => {
+            onChange={value => {
               setFilterDetune(value);
             }}
           />
           <Poti
             max={1}
-            onChange={(value) => {
-              setReverb(value);
+            onChange={value => {
+              setSubVolume(value);
             }}
           />
           <Poti
             max={100}
-            onChange={(value) => {
+            onChange={value => {
               setDistortionAmount(value);
+            }}
+          />
+          <Poti
+            max={10}
+            onChange={value => {
+              setReverbDecayTime(value);
             }}
           />
         </div>
@@ -207,7 +208,7 @@ function App() {
               }
             }}
           />
-          <Tracker key="res" onStep={(_step, value) => {}} />
+          <Tracker key="res" onStep={() => {}} />
           <Tracker key="foo" />
           <Tracker key="bar" />
           <Tracker key="lorem" />
@@ -220,7 +221,7 @@ function App() {
           setAudioContextRef({ audioContext, masterGain });
         }}
       >
-        <ChannelStrip gain={reverb}>
+        <ChannelStrip gain={subVolume}>
           <Sequencer midi>
             <Synth type="sine" releaseTime={1} attackTime={0.2} />
           </Sequencer>
@@ -229,15 +230,13 @@ function App() {
           <Sequencer midi midiChannel={midiChannel}>
             <Filter frequency={filterFreq} q={filterQ} detune={filterDetune}>
               <Distortion amount={distortionAmount}>
-                <Reverb decayTime={2}>
-                  {Object.keys(diversions).map((key) => (
+                <Reverb decayTime={reverbDecayTime}>
+                  {Object.keys(oscillators).map(key => (
                     <Synth
-                      //@ts-ignore
-                      type={diversions[key].waveform}
-                      releaseTime={1}
+                      type={oscillators[key].waveform}
+                      releaseTime={release}
                       attackTime={attack}
-                      //@ts-ignore
-                      tune={diversions[key].value}
+                      tune={oscillators[key].value}
                     />
                   ))}
                 </Reverb>
@@ -250,4 +249,4 @@ function App() {
   );
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+export default App;

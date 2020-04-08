@@ -1,6 +1,40 @@
 import React, { Component } from "react";
+import { css, cx } from "emotion";
 import WebMidi from "webmidi";
-import "./Tracker.css";
+
+const styles = {
+  tracker: css`
+    flex: 1;
+    background: black;
+    display: inline-block;
+  `,
+  trackerList: css`
+    list-style: none;
+    padding: 0px;
+  `,
+  trackerListItem: css`
+    margin-bottom: 10px;
+  `,
+
+  trackerListItemInput: css`
+    outline: none;
+    appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    color: white;
+    border: none;
+    display: inline-block;
+    width: 50px;
+    -moz-appearance: textfield;
+    text-align: center;
+  `,
+  trackListItemActive: css`
+    color: red;
+    &::placehoder {
+      color: red;
+    }
+  `,
+};
 
 interface TrackerProps {
   notes: [number];
@@ -69,15 +103,14 @@ class Tracker extends Component<TrackerProps, TrackerState> {
 
   render() {
     return (
-      <div className="tracker">
-        <ul className="tracker_list">
+      <div className={styles.tracker}>
+        <ul className={styles.trackerList}>
           {this.props.notes.map((note, index) => (
-            <li
-              className={`tracker_list_item ${
-                this.state.activeStep === index ? "active" : ""
-              }`}
-            >
+            <li className={styles.trackerListItem}>
               <input
+                className={cx(styles.trackerListItemInput, {
+                  [styles.trackListItemActive]: this.state.activeStep === index,
+                })}
                 min={0}
                 placeholder="0"
                 onChange={(e) => {
