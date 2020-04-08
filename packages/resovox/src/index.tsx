@@ -88,7 +88,7 @@ function App() {
   const [filterQ, setFilterQ] = useState(1);
   const [filterDetune, setFilterDetune] = useState(0);
   const [distortionAmount, setDistortionAmount] = useState(40);
-  const [subVolume, setSubVolume] = useState(0.2);
+  const [subVolume, setSubVolume] = useState(0);
   const [reverbDecayTime, setReverbDecayTime] = useState(0.2);
   const [audioContextRef, setAudioContextRef] = useState({
     audioContext: null,
@@ -135,7 +135,7 @@ function App() {
           <div>
             <h1 className={styles.heading}>Resovox</h1>
             <p className={styles.description}>Supersaw engine</p>
-            <p className={styles.description}>Quattro Oscilatione</p>
+            <p className={styles.description}>Quattro Oscillazione</p>
           </div>
           <div className={styles.analyzer}>
             {audioContextRef.audioContext && (
@@ -182,7 +182,7 @@ function App() {
           <Poti
             max={1}
             onChange={value => {
-              setSubVolume(value);
+              // setSubVolume(value);
             }}
           />
           <Poti
@@ -192,7 +192,7 @@ function App() {
             }}
           />
           <Poti
-            max={10}
+            max={3}
             onChange={value => {
               setReverbDecayTime(value);
             }}
@@ -209,8 +209,20 @@ function App() {
             }}
           />
           <Tracker key="res" onStep={() => {}} />
-          <Tracker key="foo" />
-          <Tracker key="bar" />
+          <Tracker
+            key="attack"
+            onStep={(_, value) => {
+              // setAttack(value);
+            }}
+          />
+
+          <Tracker
+            key="release"
+            onStep={(_, value) => {
+              // setRelease(value);
+            }}
+          />
+
           <Tracker key="lorem" />
         </div>
       </div>
@@ -226,7 +238,7 @@ function App() {
             <Synth type="sine" releaseTime={1} attackTime={0.2} />
           </Sequencer>
         </ChannelStrip>
-        <ChannelStrip gain={0.1}>
+        <ChannelStrip gain={0.8}>
           <Sequencer midi midiChannel={midiChannel}>
             <Filter frequency={filterFreq} q={filterQ} detune={filterDetune}>
               <Distortion amount={distortionAmount}>
