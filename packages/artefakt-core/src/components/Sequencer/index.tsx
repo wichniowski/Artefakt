@@ -113,7 +113,7 @@ class Sequencer extends Component<SequencerProps> {
   onStep = (callback: (step: any) => void) => {
     if (this.props.midi) {
       this.midiInput.addListener("noteon", this.props.midiChannel, (e: any) => {
-        callback({ note: Tone.Frequency.mtof(e.note.number) });
+        callback({ note: Tone.Frequency.mtof(e.note.number), rawMidi: e });
       });
     } else {
       if (this.transport) {
@@ -157,6 +157,7 @@ class Sequencer extends Component<SequencerProps> {
   }
 
   render() {
+    console.log(this.state.transportReady);
     return (
       this.state.transportReady && (
         <SequencerContext.Provider
