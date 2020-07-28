@@ -10,7 +10,7 @@ Artefakt core provides all DSP and some UI components to quickly prototype Synth
 
 ## Resovox (Alpha)
 
-Resovox is a subtractive synthesizer with that features 4 oscillators with variable wafeforms feeding into a waveshaper. Filter frequency automation can be controlled through a tracker interface. This synth is controlled via Midi. By default it will select the virtual midi port. Webmidi and audio playback need to be enabled in Chrome. Note: This synthesizer will only work in Chromium based browsers.
+Resovox is a subtractive synthesizer that features 4 oscillators with variable waveforms feeding into a waveshaper. Filter frequency automation can be controlled through a note tracker interface. This synth is controlled via Midi. By default it will select the virtual midi port. Webmidi and audio playback need to be enabled in Chrome. Note: This synthesizer will only work in Chromium based browsers.
 
 ## License
 
