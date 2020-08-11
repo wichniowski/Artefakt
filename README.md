@@ -4,13 +4,17 @@
 
 Artefakt is a component library for creating web audio-based instruments. It provides a modular audio environment that gives tone generators, effects, sequencers, and even audio visualization. It should be a simple starting point for creating web-based audio applications.
 
-## Artefakt Core (Alpha)
+## Artefakt Core
 
 Artefakt core provides all DSP and some UI components to quickly prototype Synthesizers and Web-Audio graphs
 
-## Resovox (Alpha)
+## Resovox
 
 Resovox is a subtractive synthesizer that features 4 oscillators with variable waveforms feeding into a waveshaper. Filter frequency automation can be controlled through a note tracker interface. This synth is controlled via Midi. By default it will select the virtual midi port. Webmidi and audio playback need to be enabled in Chrome. Note: This synthesizer will only work in Chromium based browsers.
+
+## SuperInterlacer
+
+Superinterlacer is a VJ app concept that uses youtube videos and midi to sync transitions between videos.
 
 ## License
 
